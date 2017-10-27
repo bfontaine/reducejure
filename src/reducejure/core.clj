@@ -1,7 +1,7 @@
 (ns reducejure.core
-  (:refer-clojure :only [defn fn
-                         when case
-                         reduce]))
+  (:refer-clojure :only [defn fn if
+                         case
+                         reduce + =]))
 
 (defn first
   [xs]
@@ -23,6 +23,15 @@
                 0 [nil 1]))
             [nil 0] xs)))
 
+(defn count
+  [xs]
+  (reduce (fn [acc & _] (+ acc 1)) 0 xs))
+
+(defn contains? ; note it doesn't work on maps
+  [xs k]
+  (reduce (fn [ok? x]
+            (if ok? ok? (= k x)))
+          false xs))
 
 ; missing: conj
 #_
@@ -34,7 +43,7 @@
 (defn rest
   [xs]
   (reduce (fn [acc x]
-            (when acc
+            (if acc
               (conj acc x)))
           nil
           xs))
