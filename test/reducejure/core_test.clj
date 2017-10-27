@@ -51,3 +51,14 @@
     false [2 3 4] 1
     true [1] 1
     true [2 3 4 5 1] 1))
+
+(deftest rempty?
+  (are [expected ls] (= expected (r/empty? ls))
+    true nil
+    true []
+    true '()
+    true {}
+    true ""
+    false [1]
+    false [1 2]
+    false {nil nil}))

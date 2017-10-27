@@ -1,5 +1,10 @@
+;; Rules
+;; -----
+;;
+;; 1. Import as few core functions as possible
+;; 2. Non-sequence-related functions are allowed (but see 1.)
 (ns reducejure.core
-  (:refer-clojure :only [defn fn if
+  (:refer-clojure :only [defn fn
                          case
                          reduce + =]))
 
@@ -32,6 +37,61 @@
   (reduce (fn [ok? x]
             (if ok? ok? (= k x)))
           false xs))
+
+(defn empty?
+  [xs]
+  (reduce (fn [& _] false)
+          true xs))
+
+(defn every? ;; TEST ME
+  [pred xs]
+  (reduce (fn [ok? x]
+            (if ok? (pred x)))
+          true xs))
+
+(defn not-every? ;; TEST ME
+  [pred xs]
+  ;; TODO use reduce
+  (if (every? pred xs)
+    false
+    true))
+
+;; TODO
+;;  some not-any?
+;;  next
+;;  nfirst
+;;  fnext
+;;  nnext
+;;  nth
+;;  nthnext
+;;  nthrest
+;;  butlast
+;;  take
+;;  take-last
+;;  take-nth
+;;  take-while
+;;  drop
+;;  drop-last
+;;  drop-while
+;;  concat
+;;  group-by
+;;  distinct
+;;  partition
+;;  partition-by
+;;  partition-all
+;;  split-at
+;;  split-with
+;;  filter
+;;  filterv
+;;  remove
+;;  replace
+;;  flatten
+;;  sort
+;;  reverse
+;;  dedupe
+;;  map
+;;  keep
+;;  mapcat
 
 ; missing: conj
 #_
