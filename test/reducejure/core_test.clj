@@ -62,3 +62,25 @@
     false [1]
     false [1 2]
     false {nil nil}))
+
+(deftest revery?
+  (are [expected pred ls] (= expected (boolean (r/every? pred ls)))
+       true  true? []
+       true  true? [true]
+       false true? [42]
+       false true? [true 42]
+       false true? [42 true]
+       true  inc [1 2 3 4]
+       true  even? [2 4 6]
+       false even? [2 5 6]))
+
+(deftest rnot-every?
+  (are [expected pred ls] (= expected (boolean (r/not-every? pred ls)))
+       false true? []
+       false true? [true]
+       true  true? [42]
+       true  true? [true 42]
+       true  true? [42 true]
+       false inc [1 2 3 4]
+       false even? [2 4 6]
+       true  even? [2 5 6]))
