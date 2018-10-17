@@ -6,7 +6,9 @@
 (ns reducejure.core
   (:refer-clojure :only [defn fn
                          case
-                         reduce + =]))
+                         reduce
+                         conj
+                         + =]))
 
 (defn first
   [xs]
@@ -63,6 +65,59 @@
             (if ok ok (pred x)))
           nil xs))
 
+(defn reverse ;; TEST ME
+  [xs]
+  (reduce conj '() xs))
+
+(defn vec ;; TEST ME
+  [xs]
+  (reduce conj [] xs))
+
+(defn rest ;; TEST ME
+  [xs]
+  (reduce (fn [acc x]
+            (if acc
+              (conj acc x)))
+          nil
+          xs))
+
+(defn butlast ;; TEST ME
+  [xs]
+  (reverse (rest (reverse xs))))
+
+(defn filter ;; TEST ME
+  [pred xs]
+  (reduce (fn [acc x]
+            (if (pred x)
+              (conj acc x)
+              acc))
+          [] xs))
+
+(defn remove ;; TEST ME
+  [pred xs]
+  (reduce (fn [acc x]
+            (if (pred x)
+              acc
+              (conj acc x)))
+          [] xs))
+
+(defn map ;; TEST ME
+  [f xs]
+  (reduce (fn [acc x]
+            (conj acc (f x)))
+          []  xs))
+
+(defn keep ;; TEST ME
+  [f xs]
+  (reduce (fn [acc x]
+            ; avoid a let
+            ((fn [e]
+               (if (= nil e)
+                 acc
+                 (conj acc e)))
+             (f x)))
+          [] xs))
+
 ;; TODO
 ;;  not-any?
 ;;  next
@@ -88,29 +143,9 @@
 ;;  partition-all
 ;;  split-at
 ;;  split-with
-;;  filter
 ;;  filterv
-;;  remove
 ;;  replace
 ;;  flatten
 ;;  sort
-;;  reverse
 ;;  dedupe
-;;  map
-;;  keep
 ;;  mapcat
-
-; missing: conj
-#_
-(defn vec
-  [xs]
-  (reduce conj [] xs))
-
-#_
-(defn rest
-  [xs]
-  (reduce (fn [acc x]
-            (if acc
-              (conj acc x)))
-          nil
-          xs))
