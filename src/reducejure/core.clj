@@ -34,8 +34,8 @@
 
 (defn contains? ; note it doesn't work on maps
   [xs k]
-  (reduce (fn [ok? x]
-            (if ok? ok? (= k x)))
+  (reduce (fn [ok x]
+            (if ok ok (= k x)))
           false xs))
 
 (defn empty?
@@ -49,15 +49,22 @@
             (if ok? (pred x)))
           true xs))
 
-(defn not-every? ;; TEST ME
+(defn not
+  [x]
+  (if x false true))
+
+(defn not-every?
   [pred xs]
-  ;; TODO use reduce
-  (if (every? pred xs)
-    false
-    true))
+  (not (every? pred xs)))
+
+(defn some ;; TEST ME
+  [pred xs]
+  (reduce (fn [ok x]
+            (if ok ok (pred x)))
+          nil xs))
 
 ;; TODO
-;;  some not-any?
+;;  not-any?
 ;;  next
 ;;  nfirst
 ;;  fnext

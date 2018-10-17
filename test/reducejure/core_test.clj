@@ -63,6 +63,14 @@
     false [1 2]
     false {nil nil}))
 
+(deftest rnot
+  (are [expected x] (= expected (r/not x))
+       true false
+       false true
+       false []
+       true nil
+       false 1))
+
 (deftest revery?
   (are [expected pred ls] (= expected (boolean (r/every? pred ls)))
        true  true? []
